@@ -1,0 +1,14 @@
+{
+  "name": "jupter",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "ioredis": "^4.27.10",
+    "nodemon": "^2.0.13"
+  }
+}
