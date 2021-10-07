@@ -12,9 +12,7 @@ app.use(cors())
 app.use(helmet())
 
 app.get('/get/users', async (req, res) => {
-    console.time()
     const users = await cache.get('users')
-    console.timeEnd()
     return res.json(users)
 })
 
@@ -27,9 +25,7 @@ app.post('/set/users', async (req, res) => {
 
 app.delete('/del/:key', (req, res) => {
     const { key } = req.params
-    console.time()
     cache.del(key)
-    console.timeEnd()
     return res.json('deletado!!')
 })
 
