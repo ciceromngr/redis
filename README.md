@@ -2,7 +2,8 @@
 
 ## bd rota get
 
-        ``` app.get('/get/bd/users', async (req, res) => {
+        ~~~~nodejs
+        app.get('/get/bd/users', async (req, res) => {
                 try {
                     console.log('.... tentando conection com o redis')
 
@@ -24,4 +25,5 @@
 
                     return res.status(200).json(users) 
                 }
-            }) ```
+            }) 
+        ~~~~~~    
