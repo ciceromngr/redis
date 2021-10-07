@@ -2,7 +2,7 @@
 
 ## bd rota get
 
-        ~~~~nodejs
+~~~~nodejs
         app.get('/get/bd/users', async (req, res) => {
                 try {
                     console.log('.... tentando conection com o redis')
@@ -15,7 +15,7 @@
 
                 } catch (error) {
                     console.log('.... tentando conection com o bd')
-                    
+
                     console.time()
                     const userRepository = getCustomRepository(UsersRepository)
                     const users = await userRepository.find()
@@ -26,4 +26,4 @@
                     return res.status(200).json(users) 
                 }
             }) 
-        ~~~~~~    
+~~~~~~    
