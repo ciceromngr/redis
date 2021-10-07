@@ -5,7 +5,7 @@ const helmet = require('helmet')
 const cache = require('./redisConfig')
 const app = express()
 
-const users = []
+const usersArr = []
 
 app.use(express.json())
 app.use(cors())
@@ -15,16 +15,14 @@ app.get('/get/users', async (req, res) => {
     console.time()
     const users = await cache.get('users')
     console.timeEnd()
-    return res.send(users)
+    return res.json(users)
 })
 
-app.post('/set/users', (req, res) => {
+app.post('/set/users', async (req, res) => {
     const data = req.body
-    console.time()
-    users.push(data)
-    console.timeEnd()
-    cache.set('users', JSON.stringify(users))
-    return res.json(data)
+    usersArr.push(data)
+    cache.set('users', JSON.stringify(usersArr))
+    return res.status(200).end()
 })
 
 app.delete('/del/:key', (req, res) => {

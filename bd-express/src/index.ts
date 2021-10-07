@@ -4,6 +4,7 @@ import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
 import faker from 'faker'
+import axios from 'axios'
 import * as Yup from 'yup'
 import { getCustomRepository } from 'typeorm'
 import { UsersRepository } from './repository/UserRepository'
@@ -14,15 +15,27 @@ app.use(cors())
 app.use(helmet())
 
 app.get('/get/bd/users', async (req, res) => {
+    try {
+        console.log('.... tentando conection com o redis')
 
-    const userRepository = getCustomRepository(UsersRepository)
+        console.time()
+        const resp = await axios.get('http://localhost:8081/get/users')
+        console.timeEnd()
 
-    const users = await userRepository.find()
+        return res.status(200).json(resp.data)
 
-    if (users.length <= 0) return res.status(400).json({ message: 'not exist users!' })
+    } catch (error) {
+        console.log('.... tentando conection com o bd')
+        
+        console.time()
+        const userRepository = getCustomRepository(UsersRepository)
+        const users = await userRepository.find()
+        console.timeEnd()
 
-    return res.status(200).json(users)
+        if (users.length <= 0) return res.status(400).json({ message: 'not exist users!' })
 
+        return res.status(200).json(users) 
+    }
 })
 
 app.post('/post/bd/users', async (req, res) => {
@@ -48,6 +61,12 @@ app.post('/post/bd/users', async (req, res) => {
 
     await userRepository.save(users)
 
+    try {
+        await axios.post('http://localhost:8081/set/users', users)
+    } catch (error) {
+        console.log('error: set redis users')
+    }
+
     return res.status(200).json(users)
 })
 
@@ -59,7 +78,7 @@ app.get('/faker/user/:qtdUsers', async (req, res) => {
 
     if (!qtdUsers) return res.status(400).json({ message: 'Please put the number for next!' })
 
-    for (var i = 0; i <= parseInt(qtdUsers); i++) {
+    for (var i = 0; i < parseInt(qtdUsers); i++) {
         const users = userRepository.create({
             name: faker.name.firstName(),
             email: faker.internet.email()
@@ -68,6 +87,12 @@ app.get('/faker/user/:qtdUsers', async (req, res) => {
         usersAll.push(users)
 
         await userRepository.save(users)
+
+        try {
+            await axios.post('http://localhost:8081/set/users', users)
+        } catch (error) {
+            console.log('error: set redis users')
+        }
     }
 
     return res.status(200).json(usersAll)
