@@ -111,7 +111,7 @@
 
 
 ## jupter rotas !!
-### finalmente cheagmos onde a magia acontece!!!
+### finalmente chegamos onde a magia acontece!!!
 
 #### Está class Cache onde montamos as configs do redis,
 #### o construtor e sempre inicializado primeiro, e o que fazemos nele é
