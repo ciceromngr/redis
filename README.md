@@ -2,9 +2,7 @@
 
 ## bd rotas
 
-#### protocolo GET do servidor bd-express ela faz basicamente uma tentativa
-#### para se conectar com o microservico redis, se este estiver
-#### desligado ele busca fazer a conection com o proprio banco
+#### protocolo GET do servidor bd-express ela faz basicamente uma tentativa para se conectar com o microservico redis, se este estiver desligado ele busca fazer a conection com o proprio banco
 
 ~~~~nodejs
     app.get('/get/bd/users', async (req, res) => {
@@ -33,10 +31,7 @@
 ~~~~~~    
 
 
-#### protocolo POST do servidor bd-express diferente da anterio que é um protocolo GET,
-#### este, além de salvar no banco de dados pg - postgres , ela também , 
-#### envia para o microservico redis atravez do protocolo POST, o usuario.
-#### Para fazer um visualização basta usar o metodo GET anterior!
+#### protocolo POST do servidor bd-express diferente da anterio que é um protocolo GET,este, além de salvar no banco de dados pg - postgres , ela também , envia para o microservico redis atravez do protocolo POST, o usuario. Para fazer uma visualização basta usar o metodo GET anterior!
 
 ~~~~nodejs
     app.post('/post/bd/users', async (req, res) => {
@@ -72,12 +67,7 @@
     })
 ~~~~~~
 
-#### protocolo GET do servidor bd-express um pouco diferente da anterio que é 
-#### um protocolo POST que faz basicamente adicionar um usuario por vez, este #### adciona varios usarios de uma ou mais , mas sao dados fakers!,
-#### basta utilizar http://localhost:8082/faker/user/10 e trocar :qtdUsers pelo numero de
-#### usuarios fakers que quiser!
-#### além de adicionar ela também faz um requisicao do tipo POST para o microservico redis
-#### , adicionando assim a mesma quantidade de users.
+#### protocolo GET do servidor bd-express um pouco diferente da anterio que é  um protocolo POST que faz basicamente adicionar um usuario por vez, este adciona varios usuarios de uma ou mais vezes, mas são dados fakers!, basta utilizar http://localhost:8082/faker/user/10 e trocar :qtdUsers pelo numero de usuarios que quiser! são dados fakes! além de adicionar, ela também faz um requisicão do tipo POST para o microservico redis , adicionando assim a mesma quantidade de users.
 
 ~~~~nodejs
     app.get('/faker/user/:qtdUsers', async (req, res) => {
@@ -113,15 +103,7 @@
 ## jupter rotas !!
 ### finalmente chegamos onde a magia acontece!!!
 
-#### Está class Cache onde montamos as configs do redis,
-#### o construtor e sempre inicializado primeiro, e o que fazemos nele é
-#### dizer que a variavel redis recebe a instancia do Redis passando algumas propriedades
-#### como HOST e PORT, como default ou utilizando as variaveis de ambiente nodejs
-#### , abaixo dela temos os metodos get set del
-#### a fun get ela espera uma 'key' - chave , no redis temos chave e valor ,
-#### nessa fun pegamos apenas a key, no caso o indentificador do redis que definimos { 'key': 'value' }, exe: { 'users': '[{ name: 'teste' }]' } 
-#### na função set dizemos qual a chave e o valor , o valor alocamos no formato string
-#### JSON.stringfy(value) ou se for mandar uma string direta não precisa do JSON.stringfy
+#### Está class Cache onde montamos as configs do redis, o construtor e sempre inicializado primeiro, e o que fazemos nele é dizer que a variavel redis recebe a instancia do Redis passando algumas propriedades como HOST e PORT, como default ou utilizando as variaveis de ambiente nodejs , abaixo dela temos os metodos get set del a fun get ela espera uma 'key' - chave , no redis temos chave e valor , nessa fun pegamos apenas a key, no caso o indentificador do redis que definimos { 'key': 'value' }, exe: { 'users': '[{ name: 'teste' }]' }  na função set dizemos qual a chave e o valor , o valor alocamos no formato string JSON.stringfy(value) ou se for mandar uma string direta não precisa do JSON.stringfy
 
 ~~~~nodejs
     class Cache {
@@ -147,9 +129,7 @@
     }
 ~~~~~~ 
 
-#### metodo GET do microservico redis pega todos os usuarios no cache redis
-#### metodo POST seta os dados no cache do redis passando chave/valor
-#### metodo DELETE apaga uma determinada key do cache redis
+#### metodo GET do microservico redis pega todos os usuarios no cache redis metodo POST seta os dados no cache do redis passando chave/valor metodo DELETE apaga uma determinada key do cache redis
 
 ~~~~nodejs
     app.get('/get/users', async (req, res) => {
@@ -175,4 +155,49 @@
     })
 ~~~~~~    
 
+
+### Dependencias JUPTER REDIS
+#### yarn ou npm i 
+
+~~~~nodejs
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^10.0.0",
+        "express": "^4.17.1",
+        "helmet": "^4.6.0",
+        "ioredis": "^4.27.10",
+        "nodemon": "^2.0.13"
+    }
+~~~~
+
+#### depois de baixar as depencencies use yarn start
+
+### Dependencias BD-EXPRESS
+#### yarn ou npm i
+~~~~nodejs
+    "dependencies": {
+    "axios": "^0.22.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "faker": "^5.5.3",
+    "helmet": "^4.6.0",
+    "reflect-metadata": "^0.1.13",
+    "sqlite3": "^5.0.2",
+    "typeorm": "^0.2.38",
+    "uuid": "^8.3.2",
+    "yup": "^0.32.9"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/faker": "^5.5.8",
+    "@types/node": "^16.10.3",
+    "@types/uuid": "^8.3.1",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.4.3"
+  }
+~~~~
+
+#### depois de baixar as depencencies use yarn start
 
